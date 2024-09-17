@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Example Slider",
+    "loraName": "example_slider.safetensors",
+    "type": "Body",
+    "subtype": null,
+    "minValue": -5,
+    "maxValue": 5,
+    "defaultValue": 0,
+    "reversed": false,
+    "enhanceKeywords": "example, ",
+    "author": "ExampleAuthor",
+    "modelId": "123456",
+    "chkpt": "ExampleCheckpoint"
+  }
+]
