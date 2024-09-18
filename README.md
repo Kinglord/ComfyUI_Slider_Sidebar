@@ -76,6 +76,7 @@ This plugin has a farily massive amount of settings for you to customize the exp
 ## Limitations
 - The "Smart Wiring" doesn't kick in unless you have at least one LoraLoadModelOnly node in your workflow already. This is partially by design to keep things clean. I can expand this feature out if there are requests, but the idea is the first one you wire into your WF as desired, and then all the ones afterwards will be smart enough to do it for you
 - It doesn't handle Early Access files from Civit super gracefully, the download will just fail (as it should) if you haven't put in your Civit API key and paid the piper
+- The auto download and info buttons don't work well on Civitai models that use versions to define different LORAs (please don't do this)
 - When downloading new sliders it will dump them into the default comfyui loras directory
 - It doesn't have all sliders in the dataset
 
