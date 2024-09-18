@@ -59,7 +59,7 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
 
 
 ## Settings
-This plugin has a farily massive amount of settings for you to customize the experience to fit your needs / desires. I STRONGLY recommend you spend a quick 5 minutes in the settings to tweak things how you want. By default the project in GitHub will show all sliders from all base models (except NSFW ones) which will probably overwhelm new users. You can easily change this in settings along with a ton of other things. Most should be self explainatory but I'll touch on a few that aren't.
+This plugin has a farily massive amount of settings for you to customize the experience to fit your needs / desires. I **STRONGLY** recommend you spend a quick 5 minutes in the settings to tweak things how you want. By default the project in GitHub will show all sliders from all base models (except NSFW ones) which will probably overwhelm new users. You can easily change this in settings along with a ton of other things. Most should be self explainatory but I'll touch on a few that aren't.
 
 - Slider Increment - Changes the amount the sliders change the model str each "tick" if you like more granular control something like .05 or .10 is good
 - Civitai API Key - If you want to download all slider files you'll need a Civitai API key. You can [get one easily (and for free) from your account page](https://developer.civitai.com/docs/getting-started/setup-profile)
