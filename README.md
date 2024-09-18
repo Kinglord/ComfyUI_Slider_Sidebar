@@ -89,7 +89,7 @@ This plugin has a farily massive amount of settings for you to customize the exp
 - There's no additional python requirements since it's just a frontend UI.
 
 ## Roadmap
-- [ ] Graceful early access handling on doanloads
+- [ ] Graceful early access handling on downloads
 - [ ] Whatever bugs you find / features you submit
 
 ## Why
