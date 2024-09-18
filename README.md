@@ -13,6 +13,7 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
   - Every chkpt is different, so these settings won't be perfect for everyone, but these are also changable in settings
 - Click the (i) button for instant previews and help on any slider you're not sure about.
 - Download any slider you're missing right from the sidebar.
+- Easy update button to stay up to date on new sliders!
 - List missing a slider you have or you make custom ones? No problem! Easily add any LECO to the list via a button.
 - Super fast search / filter to find the sliders you want, and favorite the ones you like!
 - Use LECOs as "wildcards"! Throw in some sliders, hit randomize and have fun.
@@ -90,7 +91,9 @@ This plugin has a farily massive amount of settings for you to customize the exp
 
 ## Roadmap
 - [ ] Graceful early access handling on downloads
+- [ ] Add in setting to allow automatic updating of slider data so don't you have to hit the button (OH THE HORROR)
 - [ ] Whatever bugs you find / features you submit
+- [X] Add easy way to update slider data so you don't have to git-pull all the time
 
 ## Why
 ![image](https://images.squarespace-cdn.com/content/v1/5ed58282bff5e30120ba4324/1630538079275-O1TEJ639EXQRH4VCO1E6/why-not-sure-why-not.gif)
