@@ -94,7 +94,7 @@ This plugin has a farily massive amount of settings for you to customize the exp
 ## Why
 ![image](https://images.squarespace-cdn.com/content/v1/5ed58282bff5e30120ba4324/1630538079275-O1TEJ639EXQRH4VCO1E6/why-not-sure-why-not.gif)
 
-Quite frankly LECO are extremely useful tools when it comes to maintaining image composition or helping to save tokens, and I don't think they're used enough or even understood in most cases. My hope is that by making them way easier to access and use with this sidebar they get some of the recognition and adoption they deserve, especially in the Comfy community. I think that with the release of Flux we might see some great LECOs built specifically for expressions, which I'm looking forward to!
+Quite frankly LECO are extremely useful tools when it comes to maintaining image composition or helping to save tokens, and I don't think they're used enough or even understood in most cases. My hope is that by making them way easier to access and use with this sidebar they get some of the recognition and adoption they deserve, especially in the Comfy community. I think that with the release of Flux we might see some great LECOs built specifically for expressions, which I'm looking forward to! I also learned a lot making my [Prompt Gallery](https://github.com/Kinglord/ComfyUI_Prompt_Gallery) plugin and wanted to see if I could push things a bit more.
 
 ## Credits
 **Slider (LECO) Creators**
