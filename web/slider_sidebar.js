@@ -53,6 +53,8 @@ class SliderSidebar {
         this.loadCustomSliders();
         this.updatePopupMaxWidth(this.popupMaxWidth);
         this.updatePillVisibility(this.showPills);
+        this.updateButton = null;
+        this.checkForUpdates();
         this.debug = true; // Set this to true to enable debug logging
 
         // cramming in css, proabbly doing it wrong lol
@@ -2453,6 +2455,91 @@ class SliderSidebar {
 
     ///////
 
+    ///UPDATE SLIDER DATA STUFF
+    async checkForUpdates() {
+        const localVersion = await this.getLocalVersion();
+        const remoteVersion = await this.getRemoteVersion();
+
+        if (remoteVersion > localVersion) {
+            this.showUpdateButton();
+        }
+    }
+
+    async getLocalVersion() {
+        try {
+            console.log("Fetching local version...");
+            const response = await api.fetchApi('/slider_sidebar/version?type=local');
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Local version data:", data);
+                return data.version;
+            }
+        } catch (error) {
+            console.error("Error fetching local version:", error);
+        }
+        return 0;
+    }
+
+    async getRemoteVersion() {
+        try {
+            console.log("Fetching remote version...");
+            const response = await api.fetchApi('/slider_sidebar/version?type=remote');
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Remote version data:", data);
+                return data.version;
+            }
+        } catch (error) {
+            console.error("Error fetching remote version:", error);
+        }
+        return 0;
+    }
+
+    showUpdateButton() {
+        if (!this.updateButton) {
+            this.updateButton = $el("button.add-slider-button", {
+                textContent: "Update Slider Data",
+                onclick: () => this.updateSliderData()
+            });
+            this.updateButton.style.backgroundColor = "#4CAF50"; // Green color
+            this.element.insertBefore(this.updateButton, this.element.firstChild);
+        }
+    }
+
+    async updateSliderData() {
+        try {
+            const response = await api.fetchApi('/slider_sidebar/update', {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                await this.loadSliderData(); // Reload the slider data
+                this.update(); // Update the UI
+                this.updateButton.remove(); // Remove the update button
+                this.updateButton = null;
+
+                // Show a success message
+                app.extensionManager.toast.add({
+                    severity: "success",
+                    summary: "Update Successful",
+                    detail: "Slider data has been updated.",
+                    life: 3000
+                });
+            } else {
+                throw new Error("Failed to update slider data");
+            }
+        } catch (error) {
+            console.error("Error updating slider data:", error);
+            app.extensionManager.toast.add({
+                severity: "error",
+                summary: "Update Failed",
+                detail: "Failed to update slider data. Please try again.",
+                life: 3000
+            });
+        }
+    }
+    ///////
+
     updateNSFWSetting(newVal) {
         this.nsfwEnabled = newVal;
         this.update();
@@ -2675,7 +2762,7 @@ app.registerExtension({
             name: "Base Models to Show",
             type: 'combo',
             options: ['All', 'Pony', 'Flux', 'SDXL', 'SD1.5', 'Other'],
-            defaultValue: 'All',
+            defaultValue: 'Pony',
             onChange: (newVal, oldVal) => {
                 if (app.sliderSidebar) {
                     app.sliderSidebar.updateModelFilter(newVal);

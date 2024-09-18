@@ -5,18 +5,127 @@ import aiohttp
 import folder_paths
 import hashlib
 import json
+import requests
+import logging
 
 datapath = os.path.join(os.path.dirname(__file__), 'sliderImages')
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+# Fancy sliderData versioning settings
+REPO_OWNER = "Kinglord"
+REPO_NAME = "ComfyUI_Slider_Sidebar"
+SLIDER_DATA_DIR = "sliderData"
+BASE_RAW_URL = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/main"
+API_BASE_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}"
+LOCAL_SLIDER_DATA_DIR = os.path.join(os.path.dirname(__file__), SLIDER_DATA_DIR)
+
+
+def get_local_version():
+    version_file = os.path.join(LOCAL_SLIDER_DATA_DIR, "version.json")
+    logger.debug(f"Checking local version file: {version_file}")
+    try:
+        with open(version_file, 'r') as f:
+            data = json.load(f)
+            version = data.get('version', 0)
+            logger.debug(f"Local version: {version}")
+            return version
+    except FileNotFoundError:
+        logger.warning("Local version file not found. Returning 0.")
+        return 0
+
+def get_remote_version():
+    url = f"{BASE_RAW_URL}/{SLIDER_DATA_DIR}/version.json"
+    logger.debug(f"Fetching remote version from: {url}")
+    try:
+        response = requests.get(url)
+        logger.debug(f"Remote version response status: {response.status_code}")
+        if response.status_code == 200:
+            data = response.json()
+            version = data.get('version', 0)
+            logger.debug(f"Remote version: {version}")
+            return version
+    except Exception as e:
+        logger.error(f"Error fetching remote version: {str(e)}")
+    logger.warning("Failed to get remote version. Returning 0.")
+    return 0
+
+@PromptServer.instance.routes.get("/slider_sidebar/version")
+async def get_slider_version(request):
+    version_type = request.query.get('type', 'local')
+    logger.debug(f"Received request for {version_type} slider version")
+
+    if version_type == 'local':
+        version = get_local_version()
+        logger.debug(f"Returning local slider version: {version}")
+    elif version_type == 'remote':
+        version = get_remote_version()
+        logger.debug(f"Returning remote slider version: {version}")
+    else:
+        logger.warning(f"Invalid version type requested: {version_type}")
+        return web.json_response({"error": "Invalid version type"}, status=400)
+
+    return web.json_response({"version": version})
+
+@PromptServer.instance.routes.post("/slider_sidebar/update")
+async def update_slider_data(request):
+    logger.debug("Received request to update slider data")
+    try:
+        remote_version = get_remote_version()
+        local_version = get_local_version()
+        logger.info(f"Comparing versions - Local: {local_version}, Remote: {remote_version}")
+
+        if remote_version > local_version:
+            logger.info("Update needed. Fetching file list from GitHub.")
+            
+            # Special handling for missing version.json
+            if local_version == 0:
+                logger.warning("version.json is missing. Creating a placeholder.")
+                version_file_path = os.path.join(LOCAL_SLIDER_DATA_DIR, 'version.json')
+                with open(version_file_path, 'w') as f:
+                    json.dump({"version": 0}, f)
+                logger.debug("Placeholder version.json created.")
+
+            repo_url = f"{API_BASE_URL}/contents/{SLIDER_DATA_DIR}"
+            response = requests.get(repo_url)
+            if response.status_code != 200:
+                raise Exception("Failed to fetch file list from GitHub")
+
+            files_to_update = [file['name'] for file in response.json() if file['name'].endswith('.json') and file['name'] != 'version.json']
+            files_to_update.append('version.json')  # Add version.json as the last file to update
+            logger.debug(f"Files to update: {files_to_update}")
+
+            for filename in files_to_update:
+                url = f"{BASE_RAW_URL}/{SLIDER_DATA_DIR}/{filename}"
+                logger.debug(f"Downloading file: {url}")
+                response = requests.get(url)
+                if response.status_code != 200:
+                    raise Exception(f"Failed to download {filename}")
+
+                file_path = os.path.join(LOCAL_SLIDER_DATA_DIR, filename)
+                with open(file_path, 'wb') as f:
+                    f.write(response.content)
+                logger.debug(f"Successfully updated file: {filename}")
+
+            logger.info("Update successful")
+            return web.json_response({"message": "Update successful", "new_version": remote_version})
+        else:
+            logger.info("Already up to date")
+            return web.json_response({"message": "Already up to date"})
+    except Exception as e:
+        logger.error(f"Error updating slider data: {str(e)}")
+        return web.json_response({"error": str(e)}, status=500)
+
+
 @PromptServer.instance.routes.get("/slider_sidebar/data")
 async def get_slider_data(request):
-    data_dir = os.path.join(os.path.dirname(__file__), "sliderData")
     all_sliders = []
 
     try:
-        for filename in os.listdir(data_dir):
+        for filename in os.listdir(LOCAL_SLIDER_DATA_DIR):
             if filename.endswith('.json'):
-                with open(os.path.join(data_dir, filename), 'r') as file:
+                with open(os.path.join(LOCAL_SLIDER_DATA_DIR, filename), 'r') as file:
                     file_data = json.load(file)
                     if isinstance(file_data, list):
                         # Filter out the "Example Slider"
