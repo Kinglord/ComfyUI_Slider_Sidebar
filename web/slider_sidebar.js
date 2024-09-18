@@ -726,6 +726,7 @@ class SliderSidebar {
 
     toggleInactiveSliders(hide) {
         this.hideInactive = hide;
+        this.applyHideInactive();
         this.updateAllSliders();
     }
     ///////
@@ -733,6 +734,7 @@ class SliderSidebar {
     handleSearch(searchTerm) {
         if (!this.accordion) return;
         searchTerm = searchTerm.toLowerCase();
+        this.currentSearchTerm = searchTerm;
     
         const allSections = [...this.accordion.querySelectorAll('.accordion-section')];
         
@@ -759,6 +761,41 @@ class SliderSidebar {
     
             // Show/hide the entire section based on whether it has visible sliders
             section.style.display = visibleSliders > 0 ? 'block' : 'none';
+        });
+        // Apply hide inactive after search
+        this.applyHideInactive();
+    }
+
+    applyHideInactive() {
+        if (!this.accordion) return;
+    
+        const allSliders = [...this.accordion.querySelectorAll('.slider-container')];
+        
+        allSliders.forEach(slider => {
+            // Only process sliders that passed the search filter
+            if (slider.style.display !== 'none') {
+                const isActive = !slider.classList.contains('disabled');
+                const isFavorite = slider.querySelector('.pi-heart-fill');
+    
+                if (this.hideInactive) {
+                    // When hiding inactive sliders
+                    if (!isActive && !(this.showFavorites && isFavorite)) {
+                        slider.style.display = 'none';
+                    } else {
+                        slider.style.display = '';
+                    }
+                } else {
+                    // When not hiding inactive sliders, show all
+                    slider.style.display = '';
+                }
+            }
+        });
+    
+        // Hide empty sections
+        const allSections = [...this.accordion.querySelectorAll('.accordion-section')];
+        allSections.forEach(section => {
+            const visibleSliders = [...section.querySelectorAll('.slider-container')].filter(s => s.style.display !== 'none');
+            section.style.display = visibleSliders.length > 0 ? '' : 'none';
         });
     }
 
@@ -852,7 +889,14 @@ class SliderSidebar {
                 await this.loadAvailableLoras();
                 // Re-render the sliders
                 this.update();
-                alert(`Successfully downloaded LoRA model`);
+
+                // Show success toast
+                app.extensionManager.toast.add({
+                    severity: "success",
+                    summary: "LoRA Downloaded",
+                    detail: "LoRA model was successfully downloaded and is now available.",
+                    life: 3000
+                });
             } else {
                 const errorData = await response.json();
                 console.error('Download failed:', errorData.message);
@@ -1713,7 +1757,7 @@ class SliderSidebar {
             valueInput.disabled = false;  // Enable the numerical input
             toggleCheckbox.checked = node.mode === 0; // Checked when mode is 0 (active)
             toggleCheckbox.disabled = false; // Enable the checkbox
-            if (this.hideInactive && node.mode !== 0) {
+/*             if (this.hideInactive && node.mode !== 0) {
                 // Hide inactive sliders, but show favorites if the setting is enabled
                 if (this.showFavorites && this.favorites.has(hook.name)) {
                     sliderContainer.style.display = '';
@@ -1722,7 +1766,7 @@ class SliderSidebar {
                 }
             } else {
                 sliderContainer.style.display = '';
-            }    
+            }     */
 
             // Update slider configuration
             const sliderConfig = this.getSliderConfig(hook);
@@ -1752,7 +1796,7 @@ class SliderSidebar {
             if (valueSpan) {
                 valueSpan.textContent = hook.defaultValue;
             }
-            if (this.hideInactive) {
+/*             if (this.hideInactive) {
                 // Hide inactive sliders, but show favorites if the setting is enabled
                 if (this.showFavorites && this.favorites.has(hook.name)) {
                     sliderContainer.style.display = '';
@@ -1761,7 +1805,7 @@ class SliderSidebar {
                 }
             } else {
                 sliderContainer.style.display = '';
-            }
+            } */
 
             this.enableDragAndDrop(sliderContainer, hook);
         }
@@ -1771,6 +1815,10 @@ class SliderSidebar {
         this.sliderHooks.forEach(hook => {
             const node = this.findLoraNode(hook.loraName);
             this.updateSliderState(hook, node);
+            // Reapply the current search after updating the accordion
+            this.handleSearch(this.currentSearchTerm || '');
+            // Then apply hide inactive
+            this.applyHideInactive();
         });
     }
 

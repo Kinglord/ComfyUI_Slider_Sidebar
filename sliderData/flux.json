@@ -16,8 +16,8 @@
   {
     "name": "Skin Tone",
     "loraName": "Skin Tone Slider flux v1.safetensors",
-    "type": "Body",
-    "subtype": "Skin",
+    "type": "Skin",
+    "subtype": "Tone",
     "minValue": -2,
     "maxValue": 2,
     "defaultValue": 2,
