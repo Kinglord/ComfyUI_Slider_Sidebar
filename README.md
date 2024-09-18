@@ -9,7 +9,8 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
   - Right now contains almost all released Flux and Pony LECOs as of 09/17/24  
 - Auto detects sliders already in your workflow and on your system.
 - "Smart Wiring" lets you drag and drop sliders onto your canvas and start using them right away!
-- Use sliders worry free, all of them are configured according to author guidelines! (Every chkpt is different, so YMMV still)
+- Use sliders worry free, all of them are configured according to author guidelines!
+  - Every chkpt is different, so these settings won't be perfect for everyone, but these are also changable in settings
 - Click the (i) button for instant previews and help on any slider you're not sure about.
 - Download any slider you're missing right from the sidebar.
 - Node missing a slider you have or you make custom ones? No problem! Easily add any LECO to the list.
