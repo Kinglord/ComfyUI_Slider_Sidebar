@@ -1,7 +1,8 @@
 # ComfyUI_Slider_Sidebar
 ## What is this?
 A custom node that adds a UI element to the sidebar allowing easy access, navigation, and use of a massive collection (100+) of LECO (Slider) LoRAs. LECOs are an amazing tool to generate variance in your output with a minimal impact to consistency, i.e. deviating form your prompt. They can also allow you access to control parts of your image without taking up CLIP space, saving your token weights for more valuable keywords. If you haven't used them, there's never been a better time to try!
-[Brave Ktanroopbe.webm](https://github.com/user-attachments/assets/084bd54c-75a5-47a8-9538-34ca00326b2f)
+
+[Demo](https://github.com/user-attachments/assets/f87c365e-7417-4f8f-85b9-675bb66ede0c)
 
 ## Features
 - Sidebar that holds all available sliders from this node's database, already over 100!
