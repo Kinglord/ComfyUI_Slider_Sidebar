@@ -2762,7 +2762,7 @@ app.registerExtension({
             name: "Base Models to Show",
             type: 'combo',
             options: ['All', 'Pony', 'Flux', 'SDXL', 'SD1.5', 'Other'],
-            defaultValue: 'Pony',
+            defaultValue: 'All',
             onChange: (newVal, oldVal) => {
                 if (app.sliderSidebar) {
                     app.sliderSidebar.updateModelFilter(newVal);
