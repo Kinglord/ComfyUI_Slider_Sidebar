@@ -49,7 +49,7 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
 - Rename Categories and Sliders by double clicking on the title, drag and drop category ordering.
   - Recommended to collapse categories during drag and drop to make things easier
 - Download new sliders right from the sidebar in seconds
-  - A Civit API is required to download some files
+  - A Civitai API key is required to download some files
 - Get quick previews and help hints from the info (i) button
 - Add any LECO to the list using the Add Slider button
 
