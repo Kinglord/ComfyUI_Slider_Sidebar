@@ -42,8 +42,8 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
 <img align="right" src="https://github.com/user-attachments/assets/e2d84afd-6732-4170-8423-84c48f51f47f" height=500>
 
 - Open the sidebar and use it to control any/all sliders in your workflow, or add new ones to it
-- Slider values are set according to author guidelines for min/max
-- Easily bypass any slider via it's tickbox
+- Slider values and defaults are set according to author guidelines for min/max
+- Easily bypass any slider via its tickbox
 - Search / Filter the slider list super easy via the search box
 - Drag and drop new sliders onto your WF and watch them automagically wire themselves if it's not the first one. (This is limited to LoraLoaderModelOnly for now)
 - Rename Categories and Sliders by double clicking on the title, drag and drop category ordering.
