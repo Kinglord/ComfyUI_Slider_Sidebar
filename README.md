@@ -24,13 +24,16 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
 - Re-organized some categories, improved the slider download flow to use toasts.
 
 ## Installation
-### Registry / Manager - COMING SOON
-
+### Registry - Coming Soon(tm)
+### Manager
+- Install it via the ComfyUI Manager (search for Slider Sidebar)
+- Make sure to enable the new menu in the ComfyUI settings
+- After install you probably want to go into Slider Sidebar Settings and configure things to your liking. Note the Civit API key is not required but without it your download experience will be hit and miss.
 ### Manual
 - `git clone` this repo into your ComfyUI custom nodes folder
   - There are no python dependencies for this node since it's front end only, you can also just download and extract the node there and I won't tell.
 - Make sure to enable the new menu in the ComfyUI settings
-- After install you probably want to go into Slider Sidebar Settings and configure things to your liking. Not the Civit API key is not required but without it your preview and download experience will be hit and miss.
+- After install you probably want to go into Slider Sidebar Settings and configure things to your liking. Note the Civit API key is not required but without it your download experience will be hit and miss.
 
 **NOTE** - Other than small improvements most changes will be made to the data files. This should have minimal impact but as we refine categories some things might shift around.
 
