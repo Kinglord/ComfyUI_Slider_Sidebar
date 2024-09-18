@@ -95,6 +95,7 @@ Quite frankly LECO are extremely useful tools when it comes to maintaining image
 
 ## Credits
 **Slider (LECO) Creators**
+
 This plugin wouldn't be useful at all without all the content put out by the community. You're all great, but a few standouts that I wanted to call out are:
 
 - [Ai Art Vision](https://civitai.com/user/Ai_Art_Vision)
