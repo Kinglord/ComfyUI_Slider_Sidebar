@@ -13,7 +13,7 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
   - Every chkpt is different, so these settings won't be perfect for everyone, but these are also changable in settings
 - Click the (i) button for instant previews and help on any slider you're not sure about.
 - Download any slider you're missing right from the sidebar.
-- Node missing a slider you have or you make custom ones? No problem! Easily add any LECO to the list.
+- List missing a slider you have or you make custom ones? No problem! Easily add any LECO to the list via a button.
 - Super fast search / filter to find the sliders you want, and favorite the ones you like!
 - Use LECOs as "wildcards"! Throw in some sliders, hit randomize and have fun.
 - Have a favorite author you collect LECOs from? Want to compare similar LECOs? Never been easier!
