@@ -25,9 +25,8 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
 - Re-organized some categories, improved the slider download flow to use toasts.
 
 ## Installation
-### Registry - Coming Soon(tm)
-### Manager
-- Install it via the ComfyUI Manager (search for Slider Sidebar)
+### Registry / Manager
+- Install it via the [Comfy Registry](https://registry.comfy.org/publishers/kinglord/nodes/comfyui_slider_sidebar) or ComfyUI Manager (search for Slider Sidebar)
 - Make sure to enable the new menu in the ComfyUI settings
 - After install you probably want to go into Slider Sidebar Settings and configure things to your liking. Note the Civit API key is not required but without it your download experience will be hit and miss.
 ### Manual
