@@ -1,0 +1,14 @@
+[project]
+name = "comfyui_slider_sidebar"
+description = "Adds a sidebar allowing easy discovery, access, navigation, and use of a massive collection (100+) of LECO (Slider) LoRAs."
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/Kinglord/ComfyUI_Slider_Sidebar"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "kinglord"
+DisplayName = "ComfyUI_Slider_Sidebar"
+Icon = ""
