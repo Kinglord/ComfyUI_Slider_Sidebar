@@ -22,6 +22,7 @@ A custom node that adds a UI element to the sidebar allowing easy access, naviga
 - Protective Goggles - NSFW content is hidden by default, your wholesome workflows are safe.
 
 ## Updates
+- Fixed issue with the drag and drop for sliders over riding drag and drop for workflow files (oops)
 - Re-organized some categories, improved the slider download flow to use toasts.
 
 ## Installation
