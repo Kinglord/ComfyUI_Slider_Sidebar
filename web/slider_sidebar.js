@@ -47,6 +47,7 @@ class SliderSidebar {
         this.hideInactive = false;
         this.availableLoras = [];
         this.loadAvailableLoras();
+        this.setupCanvasDropHandling();
         this.apiKey = app.ui.settings.getSettingValue("Slider Sidebar.General.apiKey", "");
         this.imageCache = new Map();
         this.loraDetails = [];
@@ -1660,7 +1661,7 @@ class SliderSidebar {
             } else {
                 // LoRA is available but node does not exist
                 // Set up drag-and-drop
-                this.setupDragAndDrop(container, hook);
+                this.enableDragAndDrop(container, hook);
                 container.classList.add('disabled');
                 // Enable UI elements
                 slider.disabled = false;
@@ -1831,23 +1832,23 @@ class SliderSidebar {
         );
     }
 
-    setupDragAndDrop(container, hook) {
-        container.draggable = true;
-        container.ondragstart = (e) => {
-            e.stopPropagation(); // Prevent event bubbling
-            console.log("Drag started for:", hook.name);
-            e.dataTransfer.setData("application/json", JSON.stringify(hook));
-            e.dataTransfer.effectAllowed = "copy";
-        };
-    }
-
     enableDragAndDrop(container, hook) {
         container.draggable = true;
         container.ondragstart = (e) => {
+            // Avoid interfering with other drag events
             e.stopPropagation();
             console.log("Drag started for:", hook.name);
-            e.dataTransfer.setData("application/json", JSON.stringify(hook));
-            e.dataTransfer.effectAllowed = "copy";
+    
+            const sliderData = JSON.stringify({
+                comfySliderData: {
+                    type: "comfy-slider",
+                    data: hook
+                }
+            });
+        
+            e.dataTransfer.setData("application/json", sliderData);
+            console.log("Setting dataTransfer with sliderJson:", sliderData);
+    
         };
     }
 
@@ -1855,27 +1856,57 @@ class SliderSidebar {
         container.draggable = false;
         container.ondragstart = null;
     }
-
+    
     setupCanvasDropHandling() {
         const canvas = this.app.canvas.canvas;
-        canvas.ondragover = (e) => {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = "copy";
-        };
-        canvas.ondrop = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const hookData = e.dataTransfer.getData("application/json");
-            if (hookData) {
-                const hook = JSON.parse(hookData);
-                console.log("Dropped hook:", hook);
-                const canvasRect = canvas.getBoundingClientRect();
-                const x = (e.clientX - canvasRect.left) / this.app.canvas.ds.scale - this.app.canvas.ds.offset[0];
-                const y = (e.clientY - canvasRect.top) / this.app.canvas.ds.scale - this.app.canvas.ds.offset[1];
-                this.createLoraNode(hook, x, y);
+    
+        const handleDrop = (e) => {
+            console.log("Drop event processed");
+            console.log("Data types:", e.dataTransfer.types);
+    
+            // Get data with "application/json"
+            const sliderJson = e.dataTransfer.getData('application/json');
+            console.log("Received slider data:", sliderJson);
+    
+            if (!sliderJson) {
+                console.log("Drop is not a slider, letting ComfyUI handle it");
+                return;
+            }
+    
+            try {
+                const data = JSON.parse(sliderJson);
+                if (data.comfySliderData && data.comfySliderData.type === "comfy-slider") {
+                    console.log("Processing comfy-slider drop");
+    
+                    const canvasRect = canvas.getBoundingClientRect();
+                    const x = (e.clientX - canvasRect.left) / this.app.canvas.ds.scale - this.app.canvas.ds.offset[0];
+                    const y = (e.clientY - canvasRect.top) / this.app.canvas.ds.scale - this.app.canvas.ds.offset[1];
+    
+                    this.createLoraNode(data.comfySliderData.data, x, y);
+    
+                    e.preventDefault();
+                    e.stopPropagation();
+                } else {
+                    console.log("Drop is not a slider, letting ComfyUI handle it");
+                }
+            } catch (error) {
+                console.error("Error processing slider data:", error);
             }
         };
+    
+        if (!this._isCanvasDropHandlerAdded) {
+            canvas.addEventListener('dragover', (e) => {
+                if (e.dataTransfer.types.includes('application/json')) {
+                    e.preventDefault();
+                }
+            });
+    
+            canvas.addEventListener('drop', handleDrop);
+    
+            this._isCanvasDropHandlerAdded = true;
+        }
     }
+    
 
     createLoraNode(hook, x, y) {
         console.log("Creating Lora node at:", x, y);
