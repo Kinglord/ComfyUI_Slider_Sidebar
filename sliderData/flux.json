@@ -98,6 +98,34 @@
     "chkpt": "Flux.1 D"
   },
   {
+    "name": "AntiBeard Slider",
+    "loraName": "AntiBeard_Slider_Flux1.safetensors",
+    "type": "Face",
+    "subtype": "Beard",
+    "minValue": 0,
+    "maxValue": 12,
+    "defaultValue": 1,
+    "reversed": false,
+    "enhanceKeywords": "",
+    "author": "ammor",
+    "modelId": "796880",
+    "chkpt": "Flux.1 D"
+  },  
+  {
+    "name": "Realism Slider BB0",
+    "loraName": "db0_realism.safetensors",
+    "type": "Image",
+    "subtype": "Style",
+    "minValue": 0,
+    "maxValue": 1.5,
+    "defaultValue": 1,
+    "reversed": false,
+    "enhanceKeywords": "",
+    "author": "NextMeal",
+    "modelId": "797631",
+    "chkpt": "Flux.1 D"
+  },  
+  {
     "name": "Slender",
     "loraName": "Chubby_Skinny.safetensors",
     "type": "Body",
